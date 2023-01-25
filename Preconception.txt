@@ -6,7 +6,9 @@ Jeu tactique d'association et de logique. 2 à 4 joueurs. Chaque joueur dispose 
 Plateau : 12 x 26 
 Normal : 108 Tuiles 
 Degradé : 36 Tuiles
-
+Formes : Carré (C), Etoile (E), Losange (L), Croix (X), Rond (R), Fleur (F)
+Couleurs : Rouge (R) , Jaune (J), Vert (V), Bleu (B), Violet (P), Orange (O)
+ 
 Joueurs : 2-4 
 
 Structures nécessaires : 
