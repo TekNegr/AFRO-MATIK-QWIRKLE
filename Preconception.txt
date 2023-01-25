@@ -1,0 +1,32 @@
+PROJET QUIRKLE : PRECONCEPTION
+
+BUT : 
+Jeu tactique d'association et de logique. 2 à 4 joueurs. Chaque joueur dispose de 6 tuiles. A son tour il en place un maximum à condition de les poser sur une seule ligne avec un caractère commun: la couleur ou la forme. A chaque tour on marque les points des lignes que l'on a complétées. L'astuce consiste à placer ses pièces à des endroits stratégiques, comme par exemple des intersections, pour marquer un maximum de points.
+
+Plateau : 12 x 26 
+Normal : 108 Tuiles 
+Degradé : 36 Tuiles
+
+Joueurs : 2-4 
+
+Structures nécessaires : 
+	Joueurs : {  Main [], Num + Pseudo, Points } 
+	Tuiles : { Couleur, Forme, X, Y } 
+	Plateau ? { Tuiles[] }
+	Pioches : { Tuiles [] }
+
+Fonctions : 
+	Pioche Auto : Prend une tuile au hasard dans la pioche afin que le joueur ait TOUJOURS 6 Tuiles 
+	Verification Mvt Possible : Regarde que l’emplacement choisis permet de jouer la tuiles ( Même Forme ou Même couleur par ligne et colonne ) sur une ligne ou colonne de 6 max
+	Calcul de Points : Après un tour, l’ordinateur regarde le nombre de tuiles ( actuelle(s) + voisines ) et donne ce dernier en tant que points en plus (Si une ligne de 6 est formé « Quirkle » on ajoute 6 points supplémentaires 
+	Echange de tuiles : Change les tuiles de la main d’un joueur et lui fait passer son tour 
+	Ajout de tuiles : Joueur peut jouer n cases sur une même ligne si mm couleur/forme et si le mvt est possible 
+	Joueur qui joue : Appel un joueur selon son numero et lui permet le jeu
+
+PROTOTYPE TOUR : 
+	APPEL JOUEUR 
+	INPUT nCASE 
+	VERIF LIGNE 
+	VERIF COLONNE 
+	COMPTE DE POINTS
+	CHANGEMENT JOUEUR 
