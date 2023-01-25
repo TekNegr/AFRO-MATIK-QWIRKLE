@@ -24,9 +24,18 @@ Fonctions :
 	Joueur qui joue : Appel un joueur selon son numero et lui permet le jeu
 
 PROTOTYPE TOUR : 
-	APPEL JOUEUR 
+	APPEL JOUEUR / TOUR 
+	Xavier
+	
 	INPUT nCASE 
+	Henin
+	
 	VERIF LIGNE 
 	VERIF COLONNE 
+	Pierre 
+	
 	COMPTE DE POINTS
+	Nathan
+	
 	CHANGEMENT JOUEUR 
+	(a la fin)
