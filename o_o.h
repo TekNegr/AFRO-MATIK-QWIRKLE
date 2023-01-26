@@ -38,7 +38,7 @@ typedef struct{
 
 void Pioche_Main(Joueur* J, int Partie);
 Tuile Init_Tuile_Vide();
-void Pioche_Main_Auto(Joueur* J, Pioche P1, int Type_Partie);
+void Pioche_Main_Auto(Joueur* J, Pioche* P1, int Type_Partie);
 void Jouer_Tuile(Joueur* J, Plateau* P, int X, int Y, Pioche P1,  int Type_Partie);
 Plateau init_Plateau();
 void Init_Partie();

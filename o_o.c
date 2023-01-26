@@ -19,8 +19,8 @@ Tuile Init_Tuile_Vide(){
 //Initialise la pioche selon sa taille
 void Init_Pioche(Pioche* P, int type_Partie){
     int Taille, Coul_I=0;
-    char Forme[6]={'C','E','L','X','R','F'};
-    char Couleur[6]={'R','Y','G','B','P','W'};
+    char Forme[6]={'C','E','L','X','R','F'};// defini les differentes formes possible
+    char Couleur[6]={'R','Y','G','B','P','W'};//defini les differentes couleurs possible
 
     // Alloue dynamiquement la pioche pour adapter la taille à sa partie
     switch (type_Partie) {
@@ -59,28 +59,26 @@ void Init_Pioche(Pioche* P, int type_Partie){
 
 
 //Parcours la main du joueur, si il y a une case vide il va en prendre une de la pioche et ensuite la supprimer de cette dernière pour remplir la main
-void Pioche_Main_Auto(Joueur* J, Pioche P1, int Type_Partie){
+void Pioche_Main_Auto(Joueur* J, Pioche* P1, int Type_Partie){
     srand(time(NULL));
-    int Rand_Tuile, Taille, nbTuile;
+    int Rand_Tuile, Taille, nbTuile, tentative=0;
     printf("Initialisation de la main...");
-    Taille=(Type_Partie==1)? Taille_N:Taille_D;
+    Taille=(Type_Partie==1)? Taille_N:Taille_D;//defini la taille selon le type de partie
+    nbTuile=0;
     for (int i=0; i<6; i++){
         printf("Tuile %d\t",i);
         if((J->Main[i].Couleurs=='\0')||(J->Main[i].Forme=='\0')){//Prend les Tuiles vide de la main
             do {
                 Rand_Tuile = rand();
                 Rand_Tuile = Rand_Tuile % Taille;
-                J->Main[i] = P1.Stock[Rand_Tuile];
-                P1.Stock[Rand_Tuile] = Init_Tuile_Vide();
-                if((J->Main[i].Couleurs!='\0')&&(J->Main[i].Forme!='\0')){
-                    nbTuile+=1; // Compte le nombre de tuiles dans la main pour permettre au joueur d'avoir une main complete
-                }
-            }while(((P1.Stock[Rand_Tuile].Forme=='\0')||(P1.Stock[Rand_Tuile].Couleurs=='\0'))&&(nbTuile<=6));//verifie que la case choisi aléatoirement soit existante et non vide
-
+                tentative++;
+            }while(((P1->Stock[Rand_Tuile].Forme=='\0')||(P1->Stock[Rand_Tuile].Couleurs=='\0'))&&(nbTuile<=6)&&(tentative<Taille));//verifie que la case choisi aléatoirement soit existante et non vide
+            J->Main[i] = P1->Stock[Rand_Tuile];
+            P1->Stock[Rand_Tuile] = Init_Tuile_Vide();
+            nbTuile+=1; // Compte le nombre de tuiles dans la main pour permettre au joueur d'avoir une main complete
         }
-
     }
-    printf("Main initialisee");
+    printf("Main initialisee\n");
     Update_Pioche(&P1,Taille);
 }
 
@@ -96,7 +94,7 @@ void Jouer_Tuile(Joueur* J, Plateau* P, int X, int Y,  Pioche P1,  int Type_Part
         P->Matrice[Y][X].X=X;
         P->Matrice[Y][X].Y=Y;
         J->Main[choix]=Init_Tuile_Vide();
-        Pioche_Main_Auto(J,P1,Type_Partie);
+        Pioche_Main_Auto(J,&P1,Type_Partie);
     }
     else{
         printf("Choix impossible choisissez a nouveau:\n");
@@ -107,7 +105,9 @@ void Jouer_Tuile(Joueur* J, Plateau* P, int X, int Y,  Pioche P1,  int Type_Part
 void afficher_Main(Joueur J){
     printf("Pupitre de tuiles:\t");
     for (int i=0;i<6;i++){
+        printf("Case %d",i);
         Affiche_Tuile(J.Main[i]);
+        printf("\t");
     }
 }
 
@@ -131,11 +131,11 @@ void Init_Partie(){
     Plateau P=init_Plateau();
     Get_TypePartie(&Taille,&type_Partie);
     Init_Pioche(&P1,type_Partie);
-    Pioche_Main_Auto(&J,P1,type_Partie);
+    Pioche_Main_Auto(&J,&P1,type_Partie);
     Affiche_Plateau(P);
+    afficher_Main(J);
     printf("Entrez les coordonnées de la case à inserer:\n");
     scanf("%d %d",&X, &Y);
-    afficher_Main(J);
     Jouer_Tuile(&J,&P,X,Y, P1, type_Partie);
     Update_Pioche(&P1, Taille);
 
@@ -157,7 +157,7 @@ void Update_Pioche(Pioche* P, int Taille){
             P->Stock[j]=P->Stock[j+1];}
         }
     }
-    printf("Pioche mise a jour");
+    printf("Pioche mise a jour\n");
 }
 
 
@@ -167,23 +167,23 @@ void Affiche_Tuile(Tuile T){
     }*/
     switch(T.Couleurs){
         case 'R':{
-            printf('\033[0;31m');
+            //printf("\033[0;31m");
             printf('%c',T.Forme);
             break;
         }
-        case 'Y':{printf('\033[0;33m');
+        case 'Y':{//printf("\033[0;33m");
             printf('%c',T.Forme);
         break;}
-        case 'G':{printf('\033[0;32m');
+        case 'G':{//printf("\033[0;32m");
             printf('%c',T.Forme);
         break;}
-        case 'B':{printf('\033[0;34m');
+        case 'B':{//printf("\033[0;34m");
             printf('%c',T.Forme);
         break;}
-        case 'P':{printf('\033[0;35m');
+        case 'P':{//printf("\033[0;35m");
             printf('%c',T.Forme);
         break;}
-        case 'W':{printf('\033[0;37m');
+        case 'W':{//printf("\033[0;37m");
             printf('%c',T.Forme);
             break;}
         default:{
