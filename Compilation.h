@@ -61,4 +61,8 @@ int Verif_XY(Plateau P,Tuile T_Actu);
 void Comptage_Points(Tuile T_Actu,int NbTuilePoz,Plateau P,Joueur* pjoueur);
 void Afficher_Score(Partie P);
 void Menu(Joueur* J1,Joueur* J2,Joueur* J3,Joueur* J4, Partie* PP);
+void Jouer_Tuile(Joueur* J, Plateau* P, int X, int Y,  Pioche* P1,  Partie PP);
+void Jouer_nTuile(Joueur* J, Plateau* P, int X, int Y,  Pioche* P1,  Partie PP, int* nbTuilePoz);
+void Boucle_Jeu(Partie PP, Joueur* JQJ,Plateau* P, Pioche* P0);
+void init_Partie();
 #endif //QWIRKLE_COMPILATION_COMPILATION_H

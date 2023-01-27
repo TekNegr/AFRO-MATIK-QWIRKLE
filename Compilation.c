@@ -5,6 +5,8 @@
 #include "Compilation.h"
 // FONCTIONS APPEL + BOUCLE
 void init_Partie(){
+    int exit=1;
+    Joueur* JQJ;
     Joueur J1;
     Joueur J2;
     Joueur J3;
@@ -13,8 +15,10 @@ void init_Partie(){
     Pioche P0;
     Plateau P;
     Menu(&J1,&J2,&J3,&J4,&PP);
+    Tab_PointeurJ(&PP,J1,J2,J3,J4);
     Definition_P(&P0,&PP);
     P0= Init_Pioche(P0,PP);
+    Affiche_Plateau(P);
     switch (PP.Nb_Joueur) {
         case 2:{
             Pioche_Main(&J1,&P0,PP);
@@ -35,10 +39,28 @@ void init_Partie(){
             break;
         }
     }
-
-
+    JQJ=&J1;
+    PP.Num_J_Actu=1;
+    while(exit!=0){
+        Boucle_Jeu(PP,JQJ,&P,&P0);
+        printf("Fin du jeu ? 0-Oui 1-Non\n");
+        scanf("%d",&exit);
+        TourJoueur(J1,J2,J3,J4,&PP);
+    }
 }
 
+void Boucle_Jeu(Partie PP, Joueur* JQJ,Plateau* P, Pioche* P0){
+    int X, Y, nbTuilePoz=0;
+    Tuile T_Actu;
+    printf("Joueur %d Choisissez les coordonnees de votre placement");
+    scanf("%d %d",&X,&Y);
+    Jouer_nTuile(JQJ,P,X,Y,P0,PP,&nbTuilePoz);
+    Pioche_Main(JQJ,P0,PP);
+    T_Actu=((*P).Matrice[Y][X]);
+    Verif_XY((*P),T_Actu);
+    Comptage_Points(T_Actu,nbTuilePoz,(*P),JQJ);
+    Afficher_Score(PP);
+}
 
 // Fonctions MENU
 
@@ -140,7 +162,7 @@ void Jouer_Tuile(Joueur* J, Plateau* P, int X, int Y,  Pioche* P1,  Partie PP) {
         scanf("%d", &choix);
     }
 } // permet le placement des tuiles
-void Jouer_nTuile(Joueur* J, Plateau* P, int X, int Y,  Pioche* P1,  Partie PP){
+void Jouer_nTuile(Joueur* J, Plateau* P, int X, int Y,  Pioche* P1,  Partie PP, int* nbTuilePoz){
     int choix, i=0, nb_Choix, dir;
     Tuile Selection[6];
     Jouer_Tuile(J,P,X,Y,P1,PP);
@@ -166,6 +188,7 @@ void Jouer_nTuile(Joueur* J, Plateau* P, int X, int Y,  Pioche* P1,  Partie PP){
             case 4:{X++;}
         }
     }
+    (*nbTuilePoz)=nb_Choix;
     printf("Dans quelle direction ? 1- Droite, 2- Gauche, 3- Haut, 4- Bas");
 } // Placmeent de nCases alignés
 
@@ -230,6 +253,7 @@ void Afficher_Score(Partie P){
 } // Affichage du score
 
 // FONCTIONS TUILES
+
 void Definition_P(Pioche* P, Partie* P1) {
     //Défini la taille de la pioche dans une structure Partie et son type de partie egalement
     printf("Choisissez un type de Partie : \n 1- Partie Normale (108 Tuiles) \n 2- Partie Degrade (36 Tuiles)");
@@ -293,6 +317,7 @@ Tuile Init_Tuile_Vide(){
     T.Y='\0';
     return T;
 }                     // Génère une case Vide
+
 // FONCTIONS PLATEAU
 
 Plateau init_Plateau(){
@@ -390,7 +415,7 @@ void Pioche_Main(Joueur* J, Pioche* P1, Partie PP){
                 }while(nbTuile_J<6);}
         }
     }
-
+    Update_Pioche(P1,PP);
 } // Initialise la main en choisissant de manière aleatoire une tuile dans la pioche
 void afficher_Main(Joueur J){
     printf("Pupitre de tuiles:\t");
